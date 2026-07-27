@@ -3,6 +3,9 @@
 - **Author:** Caio Felipe
 - **Version:** 0.0.1
 - **Description:** Basic initial diagram
+- **<span style="color:red;">OBS:</span>** Do not treat this as a definitive source of truth or final documentation; it is a basic, preliminary diagram intended to guide developers during the development process, and changes may occur.
+
+
 
 ```mermaid
 erDiagram
