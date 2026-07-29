@@ -1,0 +1,306 @@
+openapi: 3.0.0
+info:
+  title: DevApps - API Conciliador
+  description: Sistema de conciliação de cartões integrada com as principais adquirentes do Brasil, em parceria com a Confira Aki - Conciliadora de Cartões.
+  version: 0.0.1
+paths:
+  /api/v1/users:
+    get:
+      summary: List
+      operationId: home_caio_documentos_bruno_devapps_conciliador_users_list_yml
+      description: ''
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        uuid:
+                          type: string
+                        name:
+                          type: string
+                        email:
+                          type: string
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                      last:
+                        type: string
+                      prev:
+                        type: string
+                        nullable: true
+                      next:
+                        type: string
+                        nullable: true
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                      from:
+                        type: integer
+                      last_page:
+                        type: integer
+                      links:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                              nullable: true
+                            label:
+                              type: string
+                            page:
+                              type: string
+                              nullable: true
+                            active:
+                              type: boolean
+                      path:
+                        type: string
+                      per_page:
+                        type: integer
+                      to:
+                        type: integer
+                      total:
+                        type: integer
+              example:
+                data:
+                  - uuid: abde2220-5a16-47b0-9f70-e7711b3fff08
+                    name: Admin
+                    email: admin@conciliador.com.br
+                links:
+                  first: http://localhost:8000/api/v1/users?page=1
+                  last: http://localhost:8000/api/v1/users?page=1
+                  prev: null
+                  next: null
+                meta:
+                  current_page: 1
+                  from: 1
+                  last_page: 1
+                  links:
+                    - url: null
+                      label: '&laquo; Previous'
+                      page: null
+                      active: false
+                    - url: http://localhost:8000/api/v1/users?page=1
+                      label: '1'
+                      page: 1
+                      active: true
+                    - url: null
+                      label: Next &raquo;
+                      page: null
+                      active: false
+                  path: http://localhost:8000/api/v1/users
+                  per_page: 15
+                  to: 1
+                  total: 1
+      servers:
+        - url: http://localhost:8000
+  /api/v1/companies:
+    get:
+      summary: List
+      operationId: home_caio_documentos_bruno_devapps_conciliador_companies_list_yml
+      description: ''
+      tags:
+        - Companies
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        uuid:
+                          type: string
+                        document:
+                          type: string
+                        corporate_name:
+                          type: string
+                        trade_name:
+                          type: string
+                        email:
+                          type: string
+                        phone:
+                          type: string
+                        status:
+                          type: string
+                        created_at:
+                          type: string
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                      last:
+                        type: string
+                      prev:
+                        type: string
+                        nullable: true
+                      next:
+                        type: string
+                        nullable: true
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                      from:
+                        type: integer
+                      last_page:
+                        type: integer
+                      links:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                              nullable: true
+                            label:
+                              type: string
+                            page:
+                              type: string
+                              nullable: true
+                            active:
+                              type: boolean
+                      path:
+                        type: string
+                      per_page:
+                        type: integer
+                      to:
+                        type: integer
+                      total:
+                        type: integer
+              example:
+                data:
+                  - uuid: 4fc9d956-e349-4ef5-b332-6c72ba580886
+                    document: '09202589000185'
+                    corporate_name: Azevedo e Uchoa
+                    trade_name: Ltda.
+                    email: noa.domingues@quintana.com.br
+                    phone: (17) 3255-1012
+                    status: Active
+                    created_at: '2026-07-29T01:23:09+00:00'
+                  - uuid: a92be018-717f-4e1f-89b9-253fc10b5a18
+                    document: '21663023000156'
+                    corporate_name: Flores S.A.
+                    trade_name: Ltda.
+                    email: marco.jimenes@medina.br
+                    phone: (89) 2923-7509
+                    status: Inactive
+                    created_at: '2026-07-29T01:23:09+00:00'
+                  - uuid: 77960b60-ee39-4eb9-8613-8efdf06615dc
+                    document: '05132302000137'
+                    corporate_name: Abreu Ltda.
+                    trade_name: Ltda.
+                    email: matheus31@fonseca.org
+                    phone: (45) 2207-0579
+                    status: Suspended
+                    created_at: '2026-07-29T01:23:09+00:00'
+                  - uuid: b6c2a3f4-83cd-4515-9c66-a9f6b97590e8
+                    document: '21390015000183'
+                    corporate_name: da Silva e Abreu
+                    trade_name: e Filhos
+                    email: hortencia.correia@ferreira.com.br
+                    phone: (11) 92243-3659
+                    status: Suspended
+                    created_at: '2026-07-29T01:23:09+00:00'
+                  - uuid: d0360848-ba4a-460b-b298-020df4dff585
+                    document: '56660293000198'
+                    corporate_name: Arruda e Lozano e Associados
+                    trade_name: e Associados
+                    email: mgalindo@corona.org
+                    phone: (43) 3394-9925
+                    status: Inactive
+                    created_at: '2026-07-29T01:23:09+00:00'
+                  - uuid: 7fce1337-017d-4a39-8db3-827f87a1bc54
+                    document: '72648753000119'
+                    corporate_name: Camacho e Delgado Ltda.
+                    trade_name: S.A.
+                    email: brico@sanches.br
+                    phone: (47) 3022-1574
+                    status: Inactive
+                    created_at: '2026-07-29T01:23:09+00:00'
+                  - uuid: e84b56c8-461d-4ebf-bee0-497c5a55c9ff
+                    document: '25297395000167'
+                    corporate_name: Teles-Arruda
+                    trade_name: Ltda.
+                    email: lduarte@oliveira.br
+                    phone: (89) 4970-3294
+                    status: Inactive
+                    created_at: '2026-07-29T01:23:09+00:00'
+                  - uuid: 07ad9ea4-bc7f-4833-ae90-6ae0613f9c63
+                    document: '38700801000132'
+                    corporate_name: Quintana-Gonçalves
+                    trade_name: S.A.
+                    email: flavio.solano@fernandes.net
+                    phone: (19) 92783-2185
+                    status: Active
+                    created_at: '2026-07-29T01:23:09+00:00'
+                  - uuid: d8f35439-92bc-4d26-a0eb-4cb22b56e9ed
+                    document: '37135765000149'
+                    corporate_name: Prado e Salgado S.A.
+                    trade_name: e Filhos
+                    email: pquintana@mendes.org
+                    phone: (35) 94133-4258
+                    status: Suspended
+                    created_at: '2026-07-29T01:23:09+00:00'
+                  - uuid: 6e8585b0-591a-4d46-8ce1-46120dfde91f
+                    document: '80735638000100'
+                    corporate_name: Lozano e Paz Ltda.
+                    trade_name: e Filhos
+                    email: sarah.rios@vasques.net
+                    phone: (71) 93232-8062
+                    status: Suspended
+                    created_at: '2026-07-29T01:23:09+00:00'
+                links:
+                  first: http://localhost:8000/api/v1/companies?page=1
+                  last: http://localhost:8000/api/v1/companies?page=1
+                  prev: null
+                  next: null
+                meta:
+                  current_page: 1
+                  from: 1
+                  last_page: 1
+                  links:
+                    - url: null
+                      label: '&laquo; Previous'
+                      page: null
+                      active: false
+                    - url: http://localhost:8000/api/v1/companies?page=1
+                      label: '1'
+                      page: 1
+                      active: true
+                    - url: null
+                      label: Next &raquo;
+                      page: null
+                      active: false
+                  path: http://localhost:8000/api/v1/companies
+                  per_page: 15
+                  to: 10
+                  total: 10
+      servers:
+        - url: http://localhost:8000
+servers: []
+components:
+  schemas: {}
+  requestBodies: {}
+  securitySchemes: {}
