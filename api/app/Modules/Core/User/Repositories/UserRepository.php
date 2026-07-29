@@ -12,4 +12,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         parent::__construct($model);
     }
+
+    public function updateLastLogin(int $userId): void
+    {
+        User::where('id', $userId)->update([
+            'last_login_at' => now(),
+        ]);
+    }
 }

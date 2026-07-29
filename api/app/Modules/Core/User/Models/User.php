@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DevApps\LaravelModulesKit\Traits\Uuid;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -14,6 +15,7 @@ class User extends Authenticatable
     use SoftDeletes;
     use Uuid;
     use Notifiable;
+    use HasApiTokens;
 
     protected $table = 'users';
 
