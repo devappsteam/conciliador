@@ -1,0 +1,15 @@
+import type { RouteRecordRaw } from 'vue-router'
+
+export const authRoutes: RouteRecordRaw[] = [
+  {
+    path: '/login',
+    name: 'auth.login',
+    component: () => import('./views/LoginView.vue'),
+    meta: {
+      layout: 'auth',
+      requiresAuth: false,
+      guestOnly: true,
+      title: 'Login'
+    }
+  }
+]

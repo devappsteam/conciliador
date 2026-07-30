@@ -2,11 +2,16 @@ import axios, { AxiosError } from 'axios'
 import type { ValidationErrorResponse } from '../types/api'
 
 // O base URL deve vir das variáveis de ambiente (.env) deixarei o .env.example como referência para o que precisa ser configurado.
-const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1'
+const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 export const api = axios.create({
   baseURL,
   withCredentials: true,
+  withXSRFToken: true,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

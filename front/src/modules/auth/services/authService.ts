@@ -7,6 +7,7 @@ export const authService = {
    */
   async getCsrfCookie(): Promise<void> {
     await api.get('/sanctum/csrf-cookie')
+    console.log(document.cookie)
   },
 
   /**
@@ -14,21 +15,21 @@ export const authService = {
    */
   async login(credentials: LoginCredentials): Promise<void> {
     // O backend validará as credenciais e enviará o cookie de sessão na resposta
-    await api.post('/auth/login', credentials)
+    await api.post('/api/v1/auth/login', credentials)
   },
 
   /**
    * Destrói a sessão atual no backend
    */
   async logout(): Promise<void> {
-    await api.post('/auth/logout')
+    await api.post('/api/v1/auth/logout')
   },
 
   /**
    * Busca os dados do usuário autenticado e suas permissões
    */
   async getProfile(): Promise<UserResponse> {
-    const response = await api.get<UserResponse>('/auth/me')
+    const response = await api.get<UserResponse>('/api/v1/auth/me')
     return response.data
   }
 }

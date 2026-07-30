@@ -1,11 +1,26 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import AuthLayout from '@/layouts/AuthLayout.vue'
+import DefaultLayout from '@/layouts/DefaultLayout.vue'
+
+const route = useRoute()
+
+const layoutMap: Record<string, any> = {
+  auth: AuthLayout,
+  default: DefaultLayout,
+}
+
+const layoutComponent = computed(() => {
+  const layoutName = (route.meta.layout as string) || 'default'
+  return layoutMap[layoutName] || DefaultLayout
+})
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <component :is="layoutComponent">
+    <router-view />
+  </component>
 </template>
 
-<style scoped></style>
+
