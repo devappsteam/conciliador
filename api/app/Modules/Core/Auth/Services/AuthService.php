@@ -52,8 +52,9 @@ class AuthService
      */
     public function logout($request): void
     {
-        $user = $request->user();
         /*
+        $user = $request->user();
+
         if ($user) {
 
             // Auditoria do logout antes de destruir a sessão

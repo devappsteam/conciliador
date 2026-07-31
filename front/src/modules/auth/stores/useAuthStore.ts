@@ -18,7 +18,7 @@ export const useAuthStore = defineStore('auth', {
       (permission: string): boolean => {
         if (!state.user) return false
 
-        return state.user.permissions.includes(permission)
+        return state.user?.permissions.includes(permission)
       },
   },
 
