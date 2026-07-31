@@ -4,6 +4,7 @@ namespace App\Modules\Core\Auth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Core\Auth\Http\Requests\LoginRequest;
+use App\Modules\Core\Auth\Http\Resources\AuthResource;
 use App\Modules\Core\Auth\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,11 +19,10 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         try {
-            $user = $this->service->authenticate($request->validated());
+            $this->service->authenticate($request->validated());
 
             return response()->json([
                 'message' => 'Autenticação realizada com sucesso.',
-                'data'    => $user // Retornará o User configurado no futuro com as Policies
             ], 200);
 
         } catch (ValidationException $e) {
@@ -42,12 +42,9 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function me(Request $request): JsonResponse
+    public function me(Request $request): AuthResource
     {
-        // Retorna o usuário autenticado na sessão corrente
-        return response()->json([
-            'data' => $request->user()
-        ], 200);
+        return new AuthResource($request->user());
     }
 
 }
