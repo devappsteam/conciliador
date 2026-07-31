@@ -11,6 +11,7 @@ export interface User {
   email: string
   permissions: string[]
   role?: string
+  last_login_at?: string | null
 }
 
 export type UserResponse = SingleResource<User>
