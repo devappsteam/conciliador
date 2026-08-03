@@ -80,7 +80,12 @@ describe('Auth Store', () => {
     const store = useAuthStore()
 
     // Populamos o estado manualmente para o teste
-    store.user = { uuid: '019faf39-02bd-715e-acc8-817d8fb17c7c', name: 'João', email: 'joao@empresa.com', permissions: [] }
+    store.user = {
+      uuid: '019faf39-02bd-715e-acc8-817d8fb17c7c',
+      name: 'João',
+      email: 'joao@empresa.com',
+      permissions: [],
+    }
     expect(store.isAuthenticated).toBe(true)
 
     // Simula um logout bem-sucedido na API
@@ -96,7 +101,12 @@ describe('Auth Store', () => {
 
   it('deve limpar o estado do usuário mesmo se a API retornar erro no logout', async () => {
     const store = useAuthStore()
-    store.user = { uuid: '019faf39-02bd-715e-acc8-817d8fb17c7c', name: 'João', email: 'joao@empresa.com', permissions: [] }
+    store.user = {
+      uuid: '019faf39-02bd-715e-acc8-817d8fb17c7c',
+      name: 'João',
+      email: 'joao@empresa.com',
+      permissions: [],
+    }
 
     // Simula um erro de rede ou 500 na rota de logout
     vi.mocked(authService.logout).mockRejectedValueOnce(new Error('Network Error'))

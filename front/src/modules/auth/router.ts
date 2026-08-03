@@ -9,7 +9,7 @@ export const authRoutes: RouteRecordRaw[] = [
       layout: 'auth',
       requiresAuth: false,
       guestOnly: true,
-      title: 'Login'
-    }
-  }
+      title: 'Login',
+    },
+  },
 ]

@@ -31,5 +31,5 @@ export const authService = {
   async getProfile(): Promise<UserResponse> {
     const response = await api.get<UserResponse>('/api/v1/auth/me')
     return response.data
-  }
+  },
 }

@@ -22,5 +22,3 @@ const layoutComponent = computed(() => {
     <router-view />
   </component>
 </template>
-
-

@@ -15,6 +15,8 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@conciliador.com.br',
             'password' => bcrypt('admin123'),
+            'last_login_at' => now(),
+            'avatar_url' => 'https://ui-avatars.com/api/?name=Admin&background=random&size=128',
         ]);
     }
 }

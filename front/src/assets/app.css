@@ -1,7 +1,7 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme{
+@theme {
   --font-sants: 'Poppins', sans-serif;
 }

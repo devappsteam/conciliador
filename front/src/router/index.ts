@@ -2,9 +2,9 @@ import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import { useAuthStore } from '@/modules/auth/stores/useAuthStore'
 import { authRoutes } from '@/modules/auth/router'
 import { dashboardRoutes } from '@/modules/dashboard/router'
+import { userRoutes } from '@/modules/users/router'
 
 const routes: RouteRecordRaw[] = [
-
   {
     path: '/',
     redirect: { name: 'dashboard' },
@@ -13,6 +13,7 @@ const routes: RouteRecordRaw[] = [
   // Spread das rotas modulares
   ...authRoutes,
   ...dashboardRoutes,
+  ...userRoutes,
 
   // Fallback 404
   {

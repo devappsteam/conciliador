@@ -11,16 +11,14 @@ watch(
   () => route.name,
   () => {
     sidebarOpen.value = false
-  }
+  },
 )
 </script>
 <template>
   <div class="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900 font-sans antialiased">
-
     <Sidebar :is-open="sidebarOpen" @close="sidebarOpen = false" />
 
     <div class="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-
       <Header @toggle-sidebar="sidebarOpen = !sidebarOpen" />
 
       <main class="flex-1 p-4 md:p-6 2xl:p-10">
