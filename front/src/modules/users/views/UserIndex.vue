@@ -39,6 +39,13 @@
       :error-message="userStore.deleteError"
       @confirm="confirmDeleteUser"
     />
+
+    <UserFormModal
+      v-model="isUserFormModalOpen"
+      :mode="userFormMode"
+      :user-uuid="selectedUserUuidForEdit"
+      @saved="handleUserSaved"
+    />
   </div>
 </template>
 
@@ -49,12 +56,16 @@ import { useUserStore } from '../stores/useUserStore'
 import type { User } from '../types'
 import UserDeleteModal from '../components/UserDeleteModal.vue'
 import UserFilters from '../components/UserFilters.vue'
+import UserFormModal from '../components/UserFormModal.vue'
 import UserHeader from '../components/UserHeader.vue'
 import UserTable from '../components/UserTable.vue'
 
 const userStore = useUserStore()
 const isDeleteModalOpen = ref(false)
 const selectedUserForDelete = ref<User | null>(null)
+const isUserFormModalOpen = ref(false)
+const userFormMode = ref<'create' | 'edit'>('create')
+const selectedUserUuidForEdit = ref<string | null>(null)
 
 const handleSearchChange = (value: string) => {
   userStore.currentFilters.search = value
@@ -68,9 +79,21 @@ const applyFilters = () => {
   userStore.fetchUsers({ page: 1 })
 }
 
-// Placeholders de controle de fluxo de formulário (A ser conectado aos modais)
-const openCreateModal = () => console.log('Abrir modal de criação')
-const editUser = (user: User) => console.log('Editar utilizador:', user.uuid)
+const openCreateModal = () => {
+  userFormMode.value = 'create'
+  selectedUserUuidForEdit.value = null
+  isUserFormModalOpen.value = true
+}
+
+const editUser = (user: User) => {
+  userFormMode.value = 'edit'
+  selectedUserUuidForEdit.value = user.uuid
+  isUserFormModalOpen.value = true
+}
+
+const handleUserSaved = async () => {
+  await userStore.fetchUsers({ page: userStore.currentFilters.page ?? 1 })
+}
 
 const openDeleteModal = (uuid: string) => {
   const user = userStore.users.find((item) => item.uuid === uuid)
@@ -102,6 +125,13 @@ watch(isDeleteModalOpen, (isOpen) => {
   if (!isOpen && !userStore.deleting) {
     selectedUserForDelete.value = null
     userStore.clearDeleteError()
+  }
+})
+
+watch(isUserFormModalOpen, (isOpen) => {
+  if (!isOpen) {
+    userFormMode.value = 'create'
+    selectedUserUuidForEdit.value = null
   }
 })
 
