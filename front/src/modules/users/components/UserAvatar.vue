@@ -18,21 +18,21 @@ const initials = computed(() => {
 		<div
 			class="w-10 h-10 rounded-full mr-2 bg-gray-200 text-gray-600 flex items-center justify-center text-xs font-semibold overflow-hidden"
 			:style="
-				avatarUrl
+				props.avatarUrl
 					? {
-							backgroundImage: `url(${avatarUrl})`,
+							backgroundImage: `url(${props.avatarUrl})`,
 							backgroundSize: 'cover',
 							backgroundPosition: 'center',
 						}
 					: undefined
 			"
 		>
-			<span v-if="!avatarUrl">{{ initials }}</span>
+			<span v-if="!props.avatarUrl">{{ initials }}</span>
 		</div>
 
-		<div class="flex flex-col gap-1">
-			<div class="font-semibold text-gray-900 dark:text-white">{{ name }}</div>
-			<div class="text-xs text-gray-400 dark:text-gray-500">{{ email }}</div>
+		<div class="flex flex-col">
+			<div class="font-semibold text-gray-900 dark:text-white">{{ props.name }}</div>
+			<div class="text-xs text-gray-400 dark:text-gray-500">{{ props.email }}</div>
 		</div>
 	</div>
 </template>

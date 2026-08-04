@@ -8,6 +8,7 @@ const props = defineProps<{
 const normalizedRole = computed(() => (props.role || '--').toLowerCase())
 
 const roleClasses = computed(() => {
+  // apenas de teste, será dinamico esses perfis
 	const mapping: Record<string, string> = {
 		admin:
 			'bg-red-50 text-red-700 border border-red-200 dark:bg-red-950/40 dark:text-red-400',

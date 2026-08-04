@@ -6,7 +6,7 @@ withDefaults(
 	}>(),
 	{
 		colspan: 4,
-		message: 'Nenhum utilizador encontrado com os filtros atuais.',
+		message: 'Nenhum usuário encontrado com os filtros atuais.',
 	},
 )
 </script>
