@@ -8,7 +8,9 @@ export const useUserStore = defineStore('userManagement', () => {
   const users = ref<User[]>([])
   const meta = ref<PaginatedResource<User>['meta'] | null>(null)
   const loading = ref<boolean>(false)
+  const deleting = ref<boolean>(false)
   const error = ref<string | null>(null)
+  const deleteError = ref<string | null>(null)
 
   const currentFilters = ref<UserFilters>({
     page: 1,
@@ -41,13 +43,40 @@ export const useUserStore = defineStore('userManagement', () => {
     }
   }
 
+  const deleteUser = async (uuid: string) => {
+    deleting.value = true
+    deleteError.value = null
+
+    const currentPage = currentFilters.value.page ?? 1
+    const isLastItemOnPage = users.value.length === 1 && currentPage > 1
+    const nextPage = isLastItemOnPage ? currentPage - 1 : currentPage
+
+    try {
+      await userService.delete(uuid)
+      await fetchUsers({ page: nextPage })
+    } catch (err: any) {
+      deleteError.value = err.response?.data?.message || 'Erro ao remover utilizador.'
+      throw err
+    } finally {
+      deleting.value = false
+    }
+  }
+
+  const clearDeleteError = () => {
+    deleteError.value = null
+  }
+
   return {
     users,
     meta,
     loading,
+    deleting,
     error,
+    deleteError,
     currentFilters,
     fetchUsers,
     changePage,
+    deleteUser,
+    clearDeleteError,
   }
 })
