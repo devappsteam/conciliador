@@ -17,10 +17,13 @@
   },
   "dependencies": {
     "@lucide/vue": "^1.28.0",
+    "@vee-validate/zod": "^4.15.1",
     "@tailwindcss/vite": "^4.3.3",
     "axios": "^1.18.1",
     "pinia": "^4.0.2",
+    "vee-validate": "^4.15.1",
     "tailwindcss": "^4.3.3",
+    "zod": "^3.25.76",
     "vue": "^3.5.40",
     "vue-router": "^5.2.0"
   },

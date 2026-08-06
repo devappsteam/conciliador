@@ -53,7 +53,7 @@
 import { onMounted, ref, watch } from 'vue'
 import AppPagination from '@/components/AppPagination.vue'
 import { useUserStore } from '../stores/useUserStore'
-import type { User } from '../types'
+import type { User, UserRole } from '../types'
 import UserDeleteModal from '../components/UserDeleteModal.vue'
 import UserFilters from '../components/UserFilters.vue'
 import UserFormModal from '../components/UserFormModal.vue'
@@ -72,7 +72,7 @@ const handleSearchChange = (value: string) => {
 }
 
 const handleRoleChange = (value: string) => {
-  userStore.currentFilters.role = value
+  userStore.currentFilters.role = value as UserRole | ''
 }
 
 const applyFilters = () => {

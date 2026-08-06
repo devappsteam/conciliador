@@ -1,25 +1,17 @@
 import { api } from '@/services/api'
-import type { User, UserFilters } from '../types'
+import type { CreateUserPayload, UpdateUserPayload, User, UserFilters } from '../types'
 import type { PaginatedResource } from '@/types/api'
 
-export interface UserWritePayload {
-  name: string
-  email: string
-  role?: string
-  password?: string
-  password_confirmation?: string
-  avatar?: File | null
-}
-
-const buildUserFormData = (payload: UserWritePayload, withMethodOverride = false): FormData => {
+const buildUserFormData = (
+	payload: CreateUserPayload | UpdateUserPayload,
+	withMethodOverride = false,
+): FormData => {
   const formData = new FormData()
 
   formData.append('name', payload.name)
   formData.append('email', payload.email)
 
-  if (payload.role) {
-    formData.append('role', payload.role)
-  }
+  formData.append('role', payload.role)
 
   if (payload.password) {
     formData.append('password', payload.password)
@@ -53,7 +45,7 @@ export const userService = {
     return response.data
   },
 
-  async create(payload: UserWritePayload): Promise<{ data: User }> {
+  async create(payload: CreateUserPayload): Promise<{ data: User }> {
     const response = await api.post<{ data: User }>(
       '/api/v1/users',
       buildUserFormData(payload),
@@ -66,7 +58,7 @@ export const userService = {
     return response.data
   },
 
-  async update(uuid: string, payload: UserWritePayload): Promise<{ data: User }> {
+  async update(uuid: string, payload: UpdateUserPayload): Promise<{ data: User }> {
     const response = await api.post<{ data: User }>(
       `/api/v1/users/${uuid}`,
       buildUserFormData(payload, true),
