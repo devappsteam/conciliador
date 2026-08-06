@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
+
+export type AppModalSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | 'full'
 
 const props = withDefaults(
 	defineProps<{
@@ -8,11 +10,15 @@ const props = withDefaults(
 		descriptionId?: string
 		closeOnBackdrop?: boolean
 		closeOnEscape?: boolean
+		size?: AppModalSize
+		maxWidthClass?: string
 	}>(),
 	{
 		closeOnBackdrop: true,
 		closeOnEscape: true,
 		descriptionId: undefined,
+		size: '2xl',
+		maxWidthClass: undefined,
 	},
 )
 
@@ -22,6 +28,20 @@ const emit = defineEmits<{
 
 const dialogRef = ref<HTMLElement | null>(null)
 let previouslyFocusedElement: HTMLElement | null = null
+
+const sizeClasses: Record<AppModalSize, string> = {
+	sm: 'max-w-sm',
+	md: 'max-w-md',
+	lg: 'max-w-lg',
+	xl: 'max-w-xl',
+	'2xl': 'max-w-2xl',
+	'3xl': 'max-w-3xl',
+	'4xl': 'max-w-4xl',
+	'5xl': 'max-w-5xl',
+	full: 'max-w-[min(96vw,1600px)]',
+}
+
+const dialogWidthClass = computed(() => props.maxWidthClass || sizeClasses[props.size])
 
 const focusableSelector = [
 	'a[href]',
@@ -119,7 +139,7 @@ onBeforeUnmount(() => {
 			<div class="relative flex min-h-full items-center justify-center p-4">
 				<div
 					ref="dialogRef"
-					class="w-full outline-none"
+					:class="['w-full outline-none', dialogWidthClass]"
 					role="dialog"
 					aria-modal="true"
 					:aria-labelledby="titleId"

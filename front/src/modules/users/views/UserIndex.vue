@@ -44,6 +44,7 @@
       v-model="isUserFormModalOpen"
       :mode="userFormMode"
       :user-uuid="selectedUserUuidForEdit"
+      modal-size="3xl"
       @saved="handleUserSaved"
     />
   </div>

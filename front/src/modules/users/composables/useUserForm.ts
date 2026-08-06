@@ -27,6 +27,7 @@ export const useUserForm = ({ isOpen, mode, userUuid, onSaved }: UseUserFormOpti
 	const loadingUserDetails = ref(false)
 	const globalErrorMessage = ref('')
 	const loadedUserUuid = ref<string | null>(null)
+	const activeFetchUuid = ref<string | null>(null)
 	const loadedAvatarUrl = ref('')
 	const requestSequence = ref(0)
 	const avatarPreview = useFilePreview('')
@@ -71,7 +72,12 @@ export const useUserForm = ({ isOpen, mode, userUuid, onSaved }: UseUserFormOpti
 	}
 
 	const fetchUserDetails = async (uuid: string) => {
+		if (activeFetchUuid.value === uuid) {
+			return
+		}
+
 		const requestId = ++requestSequence.value
+		activeFetchUuid.value = uuid
 		loadingUserDetails.value = true
 		globalErrorMessage.value = ''
 		setErrors({})
@@ -93,6 +99,10 @@ export const useUserForm = ({ isOpen, mode, userUuid, onSaved }: UseUserFormOpti
 			globalErrorMessage.value =
 				normalizedError.message || 'Não foi possível carregar os dados do utilizador.'
 		} finally {
+			if (activeFetchUuid.value === uuid) {
+				activeFetchUuid.value = null
+			}
+
 			if (requestId === requestSequence.value) {
 				loadingUserDetails.value = false
 			}
@@ -147,6 +157,10 @@ export const useUserForm = ({ isOpen, mode, userUuid, onSaved }: UseUserFormOpti
 		setFieldValue('avatar', file)
 	}
 
+	const updateField = <K extends keyof UserFormValues>(field: K, value: UserFormValues[K]) => {
+		setFieldValue(field as never, value as never)
+	}
+
 	const submitForm = handleSubmit(async (formValues) => {
 		globalErrorMessage.value = ''
 
@@ -187,7 +201,7 @@ export const useUserForm = ({ isOpen, mode, userUuid, onSaved }: UseUserFormOpti
 		requestSequence.value += 1
 
 		if (!open) {
-			closeForm()
+			clearFormState()
 			return
 		}
 
@@ -195,7 +209,14 @@ export const useUserForm = ({ isOpen, mode, userUuid, onSaved }: UseUserFormOpti
 	})
 
 	watch(userUuid, async (uuid, previousUuid) => {
-		if (!isOpen.value || !isEditMode.value || !uuid || uuid === previousUuid || uuid === loadedUserUuid.value) {
+		if (
+			!isOpen.value ||
+			!isEditMode.value ||
+			!uuid ||
+			uuid === previousUuid ||
+			uuid === loadedUserUuid.value ||
+			loadingUserDetails.value
+		) {
 			return
 		}
 
@@ -209,6 +230,7 @@ export const useUserForm = ({ isOpen, mode, userUuid, onSaved }: UseUserFormOpti
 		loadingUserDetails,
 		globalErrorMessage,
 		avatarPreviewUrl,
+		updateField,
 		isEditMode,
 		title,
 		submitLabel,
