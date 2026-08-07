@@ -2,6 +2,7 @@
 
 namespace App\Modules\Core\User\Models;
 
+use App\Modules\Core\IAM\Models\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -42,4 +43,9 @@ class User extends Authenticatable
         'updated_at'        => 'datetime',
         'deleted_at'        => 'datetime',
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+    }
 }
