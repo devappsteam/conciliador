@@ -5,7 +5,7 @@ namespace App\Modules\Core\User\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class UserListResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
@@ -16,10 +16,7 @@ class UserResource extends JsonResource
             'email'         => $this->email,
             'role'          => $this->whenLoaded('roles', function () {
                 return $this->roles->map(function ($role) {
-                    return [
-                        'uuid' => $role->uuid,
-                        'name' => $role->name,
-                    ];
+                    return $role->name;
                 });
             }),
             'last_login_at' => $this->last_login_at ?? null,

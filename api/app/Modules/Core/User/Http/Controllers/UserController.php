@@ -5,6 +5,7 @@ namespace App\Modules\Core\User\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Modules\Core\User\Http\Requests\StoreUserRequest;
 use App\Modules\Core\User\Http\Requests\UpdateUserRequest;
+use App\Modules\Core\User\Http\Resources\UserListResource;
 use App\Modules\Core\User\Http\Resources\UserResource;
 use App\Modules\Core\User\Services\UserService;
 use Illuminate\Http\JsonResponse;
@@ -14,17 +15,16 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends Controller
 {
-    public function __construct(protected UserService $service)
-    {
-    }
+    public function __construct(protected UserService $service) {}
 
     public function index(): AnonymousResourceCollection
     {
         $users = $this->service->paginate(
-            perPage: request()->integer('per_page', (int) config('modules.user.pagination.per_page', 15))
+            perPage: request()->integer('per_page', 15),
+            relations: ['roles:id,name']
         );
 
-        return UserResource::collection($users);
+        return UserListResource::collection($users);
     }
 
     public function store(StoreUserRequest $request): JsonResponse
