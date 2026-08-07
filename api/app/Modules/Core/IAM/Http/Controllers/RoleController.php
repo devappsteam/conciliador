@@ -23,7 +23,6 @@ class RoleController extends Controller
             perPage: request()->integer('per_page', 15),
             relations: ['permissions']
         );
-
         return RoleListResource::collection($roles);
     }
 
@@ -67,7 +66,10 @@ class RoleController extends Controller
 
     protected function findOrFail(string $uuid)
     {
-        $role = $this->service->findByUuid($uuid);
+        $role = $this->service->findByUuid(
+            uuid: $uuid,
+            relations: ['permissions']
+        );
 
         if (!$role) {
             throw new NotFoundHttpException('Role not found.');
