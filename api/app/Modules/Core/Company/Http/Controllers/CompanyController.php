@@ -5,6 +5,7 @@ namespace App\Modules\Core\Company\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Modules\Core\Company\Http\Requests\StoreCompanyRequest;
 use App\Modules\Core\Company\Http\Requests\UpdateCompanyRequest;
+use App\Modules\Core\Company\Http\Resources\CompanyListResource;
 use App\Modules\Core\Company\Http\Resources\CompanyResource;
 use App\Modules\Core\Company\Services\CompanyService;
 use Illuminate\Http\JsonResponse;
@@ -24,7 +25,14 @@ class CompanyController extends Controller
             perPage: request()->integer('per_page', (int) config('modules.company.pagination.per_page', 15))
         );
 
-        return CompanyResource::collection($companies);
+        return CompanyListResource::collection($companies);
+    }
+
+    public function all(): AnonymousResourceCollection
+    {
+        $companies = $this->service->all();
+
+        return CompanyListResource::collection($companies);
     }
 
     public function store(StoreCompanyRequest $request): JsonResponse
