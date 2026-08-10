@@ -8,6 +8,8 @@ use App\Modules\Core\IAM\Database\Seeders\PermissionSeeder;
 use App\Modules\Core\IAM\Database\Seeders\RoleSeeder;
 use App\Modules\Core\IAM\Database\Seeders\RoleUserSeeder;
 use App\Modules\Core\User\Database\Seeders\UserSeeder;
+use App\Modules\ERP\Department\Database\Seeders\DepartmentSeeder;
+use App\Modules\ERP\Position\Database\Seeders\PositionSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -27,6 +29,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             PermissionRoleSeeder::class,
             RoleUserSeeder::class,
+            DepartmentSeeder::class,
+            PositionSeeder::class,
         ]);
     }
 }
