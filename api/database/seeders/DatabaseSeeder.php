@@ -10,6 +10,8 @@ use App\Modules\Core\IAM\Database\Seeders\RoleUserSeeder;
 use App\Modules\Core\User\Database\Seeders\UserSeeder;
 use App\Modules\ERP\Department\Database\Seeders\DepartmentSeeder;
 use App\Modules\ERP\Position\Database\Seeders\PositionSeeder;
+use App\Modules\Integrations\Acquirer\Database\Seeders\AcquirerSeeder;
+use App\Modules\Integrations\Bank\Database\Seeders\BankSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -31,6 +33,8 @@ class DatabaseSeeder extends Seeder
             RoleUserSeeder::class,
             DepartmentSeeder::class,
             PositionSeeder::class,
+            AcquirerSeeder::class,
+            BankSeeder::class,
         ]);
     }
 }
