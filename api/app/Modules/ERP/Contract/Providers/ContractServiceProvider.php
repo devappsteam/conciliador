@@ -6,6 +6,7 @@ use App\Modules\ERP\Contract\Models\Contract;
 use App\Modules\ERP\Contract\Policies\ContractPolicy;
 use App\Modules\ERP\Contract\Repositories\Contracts\ContractRepositoryInterface;
 use App\Modules\ERP\Contract\Repositories\ContractRepository;
+use App\Observers\ContractObserver;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,5 +20,6 @@ class ContractServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(Contract::class, ContractPolicy::class);
+        Contract::observe(ContractObserver::class);
     }
 }
