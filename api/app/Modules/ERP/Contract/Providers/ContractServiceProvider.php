@@ -6,7 +6,7 @@ use App\Modules\ERP\Contract\Models\Contract;
 use App\Modules\ERP\Contract\Policies\ContractPolicy;
 use App\Modules\ERP\Contract\Repositories\Contracts\ContractRepositoryInterface;
 use App\Modules\ERP\Contract\Repositories\ContractRepository;
-use App\Observers\ContractObserver;
+use App\Modules\ERP\Contract\Observers\ContractObserver;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
