@@ -16,7 +16,10 @@ class UserListResource extends JsonResource
             'email'         => $this->email,
             'role'          => $this->whenLoaded('roles', function () {
                 return $this->roles->map(function ($role) {
-                    return $role->name;
+                    return [
+                        'uuid' => $role->uuid,
+                        'name' => $role->name,
+                    ];
                 });
             }),
             'last_login_at' => $this->last_login_at ?? null,

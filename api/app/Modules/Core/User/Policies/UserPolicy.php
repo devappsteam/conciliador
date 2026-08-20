@@ -6,38 +6,46 @@ use App\Modules\Core\User\Models\User;
 
 class UserPolicy
 {
-    public function viewAny($user = null): bool
+    /** Slugs de roles com privilégios administrativos sobre outros usuários */
+    protected const ADMIN_SLUGS = ['master', 'admin'];
+
+    public function viewAny(User $user): bool
     {
         return true;
     }
 
-    public function view($user, User $user): bool
+    public function view(User $user, User $model): bool
     {
         return true;
     }
 
-    public function create($user = null): bool
+    public function create(User $user): bool
     {
-        return true;
+        return $this->isAdmin($user);
     }
 
-    public function update($user, User $user): bool
+    public function update(User $user, User $model): bool
     {
-        return true;
+        return $user->id === $model->id || $this->isAdmin($user);
     }
 
-    public function delete($user, User $user): bool
+    public function delete(User $user, User $model): bool
     {
-        return true;
+        return $user->id !== $model->id && $this->isAdmin($user);
     }
 
-    public function restore($user, User $user): bool
+    public function restore(User $user, User $model): bool
     {
-        return true;
+        return $this->isAdmin($user);
     }
 
-    public function forceDelete($user, User $user): bool
+    public function forceDelete(User $user, User $model): bool
     {
-        return true;
+        return $this->isAdmin($user);
+    }
+
+    protected function isAdmin(User $user): bool
+    {
+        return $user->roles()->whereIn('slug', self::ADMIN_SLUGS)->exists();
     }
 }

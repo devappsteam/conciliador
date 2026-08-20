@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
             'uuid' => Str::uuid(),
             'name' => 'Admin',
             'email' => 'admin@conciliador.com.br',
-            'password' => bcrypt('admin123'),
+            'password' => bcrypt(env('DEFAULT_ADMIN_PASSWORD', 'Adm1n@Concili4dor#2026')),
             'last_login_at' => now(),
             'avatar_url' => 'https://ui-avatars.com/api/?name=Admin&background=random&size=128',
         ]);
