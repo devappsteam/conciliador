@@ -24,7 +24,7 @@ const emit = defineEmits<{
 	(event: 'update:modelValue', value: boolean): void
 	(event: 'saved'): void
 }>()
-const { values, errors: fieldErrors, isSubmitting: submitting, loadingUserDetails, globalErrorMessage, avatarPreviewUrl, updateField, isEditMode, title, submitLabel, handleAvatarChange, submitForm, closeForm } = useUserForm({
+const { values, errors: fieldErrors, isSubmitting: submitting, loadingUserDetails, globalErrorMessage, avatarPreviewUrl, roleOptions, loadingRoles, updateField, isEditMode, title, submitLabel, handleAvatarChange, submitForm, closeForm } = useUserForm({
 	isOpen: toRef(props, 'modelValue'),
 	mode: toRef(props, 'mode'),
 	userUuid: toRef(props, 'userUuid'),
@@ -91,6 +91,8 @@ const close = () => {
 				:is-edit-mode="isEditMode"
 				:avatar-preview-url="avatarPreviewUrl"
 				:global-error-message="globalErrorMessage"
+				:role-options="roleOptions"
+				:loading-roles="loadingRoles"
 				@submit="submitForm"
 				@avatar-change="handleAvatarChange"
 				@update-field="updateField"

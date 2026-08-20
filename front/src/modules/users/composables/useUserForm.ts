@@ -3,6 +3,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import { useFilePreview } from '@/composables/useFilePreview'
 import { userService } from '../services/userService'
+import { useRoleOptions } from './useRoleOptions'
 import { createUserFormSchema, updateUserFormSchema } from '../schemas/userForm.schema'
 import type { UserFormValues, User } from '../types'
 import {
@@ -31,6 +32,7 @@ export const useUserForm = ({ isOpen, mode, userUuid, onSaved }: UseUserFormOpti
 	const loadedAvatarUrl = ref('')
 	const requestSequence = ref(0)
 	const avatarPreview = useFilePreview('')
+	const { roles: roleOptions, loading: loadingRoles, fetchRoles } = useRoleOptions()
 
 	const validationSchema = computed(() =>
 		mode.value === 'create' ? toTypedSchema(createUserFormSchema) : toTypedSchema(updateUserFormSchema),
@@ -111,6 +113,7 @@ export const useUserForm = ({ isOpen, mode, userUuid, onSaved }: UseUserFormOpti
 
 	const openForm = async () => {
 		clearFormState()
+		void fetchRoles()
 
 		if (!isEditMode.value) {
 			return
@@ -230,6 +233,8 @@ export const useUserForm = ({ isOpen, mode, userUuid, onSaved }: UseUserFormOpti
 		loadingUserDetails,
 		globalErrorMessage,
 		avatarPreviewUrl,
+		roleOptions,
+		loadingRoles,
 		updateField,
 		isEditMode,
 		title,

@@ -11,7 +11,7 @@ const buildUserFormData = (
   formData.append('name', payload.name)
   formData.append('email', payload.email)
 
-  formData.append('role', payload.role)
+  formData.append('role_uuid', payload.role_uuid)
 
   if (payload.password) {
     formData.append('password', payload.password)

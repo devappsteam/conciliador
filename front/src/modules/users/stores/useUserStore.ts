@@ -17,7 +17,7 @@ export const useUserStore = defineStore('userManagement', () => {
     page: 1,
     per_page: 15,
     search: '',
-    role: '',
+    role_uuid: '',
   })
 
   const fetchUsers = async (filters: UserFilters = {}) => {

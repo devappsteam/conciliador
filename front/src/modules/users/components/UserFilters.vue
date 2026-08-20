@@ -1,23 +1,30 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { Search } from '@lucide/vue'
-import { USER_ROLE_OPTIONS } from '../constants/user.constants'
+import { useRoleOptions } from '../composables/useRoleOptions'
 
 const props = withDefaults(
 	defineProps<{
 		search?: string
-		role?: string
+		roleUuid?: string
 	}>(),
 	{
 		search: '',
-		role: '',
+		roleUuid: '',
 	},
 )
 
 const emit = defineEmits<{
 	(event: 'update:search', value: string): void
-	(event: 'update:role', value: string): void
+	(event: 'update:role-uuid', value: string): void
 	(event: 'apply-filters'): void
 }>()
+
+const { roles: roleOptions, fetchRoles } = useRoleOptions()
+
+onMounted(() => {
+	void fetchRoles()
+})
 
 let debounceTimer: ReturnType<typeof setTimeout>
 
@@ -33,7 +40,7 @@ const onSearchInput = (event: Event) => {
 
 const onRoleChange = (event: Event) => {
 	const target = event.target as HTMLSelectElement
-	emit('update:role', target.value)
+	emit('update:role-uuid', target.value)
 	emit('apply-filters')
 }
 </script>
@@ -57,13 +64,13 @@ const onRoleChange = (event: Event) => {
 
 		<div class="flex items-center gap-2 w-full md:w-auto justify-end">
 			<select
-				:value="props.role"
+				:value="props.roleUuid"
 				@change="onRoleChange"
 				class="px-3 py-2 text-sm bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-hidden focus:border-blue-500"
 			>
 				<option value="">Todos os Perfis</option>
-				<option v-for="option in USER_ROLE_OPTIONS" :key="option.value" :value="option.value">
-					{{ option.label }}
+				<option v-for="option in roleOptions" :key="option.uuid" :value="option.uuid">
+					{{ option.name }}
 				</option>
 			</select>
 		</div>

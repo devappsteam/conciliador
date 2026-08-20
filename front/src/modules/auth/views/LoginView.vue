@@ -10,8 +10,8 @@ const route = useRoute()
 const authStore = useAuthStore()
 
 const form = reactive({
-  email: 'admin@conciliador.com.br', // Remover quando finalizar o desenvolvimento
-  password: 'admin123', // Remover quando finalizar o desenvolvimento
+  email: '',
+  password: '',
 })
 
 const errors = ref<Record<string, string[]>>({})
@@ -63,7 +63,9 @@ const handleSubmit = async () => {
     class="w-full max-w-md p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700"
   >
     <div class="mb-8 text-center">
-      <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Conciliador</h1>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+        <img src="https://confiraaki.com.br/wp-content/uploads/2024/12/logo_CONFIRA_AKI-300x130-1-1.png" class="h-20 mx-auto" alt="logo" />
+      </h1>
       <p class="text-sm text-gray-500 dark:text-gray-400">
         Informe suas credenciais para acessar o sistema.
       </p>
@@ -87,6 +89,7 @@ const handleSubmit = async () => {
           v-model="form.email"
           type="email"
           autocomplete="email"
+          autofocus
           required
           :disabled="authStore.isLoading"
           class="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700/50 text-gray-900 dark:text-white border rounded-lg outline-none transition-colors"
@@ -95,7 +98,6 @@ const handleSubmit = async () => {
               ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500'
               : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-1 focus:ring-primary',
           ]"
-          placeholder="exemplo@empresa.com"
         />
         <p v-if="errors.email" class="mt-1.5 text-xs text-red-600 dark:text-red-400 font-medium">
           {{ errors.email[0] }}
@@ -121,24 +123,10 @@ const handleSubmit = async () => {
               ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500'
               : 'border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-1 focus:ring-primary',
           ]"
-          placeholder="••••••••"
         />
         <p v-if="errors.password" class="mt-1.5 text-xs text-red-600 dark:text-red-400 font-medium">
           {{ errors.password[0] }}
         </p>
-      </div>
-
-      <div class="flex justify-end">
-        <a href="#" class="text-xs text-blue-600 hover:underline dark:text-blue-400">
-          Esqueceu a senha?
-        </a>
-      </div>
-
-      <div
-        class="mb-6 p-4 bg-gray-50 dark:bg-gray-950/30 border-l-4 border-gray-500 text-sm text-gray-700 dark:text-gray-400 rounded-r-md"
-      >
-        Durante o desenvolvimento, usar as credenciais <strong>admin@conciliador.com.br</strong> e
-        <strong>admin123</strong> para acessar o sistema.
       </div>
 
       <button

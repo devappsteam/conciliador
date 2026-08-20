@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { USER_AVATAR_ACCEPTED_TYPES, USER_AVATAR_MAX_SIZE, USER_FORM_DEFAULT_ERRORS, USER_ROLES } from '../constants/user.constants'
+import { USER_AVATAR_ACCEPTED_TYPES, USER_AVATAR_MAX_SIZE, USER_FORM_DEFAULT_ERRORS } from '../constants/user.constants'
 import { createEmailSchema } from '@/schemas/email.schema'
 import { createImageFileSchema } from '@/schemas/file.schema'
 import { createPasswordSchema } from '@/schemas/password.schema'
@@ -11,6 +11,12 @@ const avatarSchema = createImageFileSchema({
 	maxSizeMessage: USER_FORM_DEFAULT_ERRORS.avatarSize,
 })
 
+// Espelha a política de senha forte aplicada no backend (Password::mixedCase()->numbers()->symbols())
+const PASSWORD_COMPLEXITY_REGEX = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+/
+
+const withComplexity = (schema: ReturnType<typeof createPasswordSchema>) =>
+	schema.regex(PASSWORD_COMPLEXITY_REGEX, USER_FORM_DEFAULT_ERRORS.passwordComplexity)
+
 const baseUserFormSchema = z.object({
 	name: z
 		.string()
@@ -21,25 +27,21 @@ const baseUserFormSchema = z.object({
 		required: USER_FORM_DEFAULT_ERRORS.email,
 		invalid: 'Informe um e-mail válido.',
 	}),
-	role: z
-		.string()
-		.trim()
-		.min(1, USER_FORM_DEFAULT_ERRORS.role)
-		.refine((value) => USER_ROLES.includes(value as (typeof USER_ROLES)[number]), {
-			message: 'Selecione um perfil de utilizador válido.',
-		}),
+	role_uuid: z.string().trim().min(1, USER_FORM_DEFAULT_ERRORS.role),
 	password: z.string().trim().optional(),
 	password_confirmation: z.string().trim().optional(),
 	avatar: z.union([avatarSchema, z.null()]).optional(),
 })
 
 export const createUserFormSchema = baseUserFormSchema.extend({
-	password: createPasswordSchema(
-		{
-			required: USER_FORM_DEFAULT_ERRORS.passwordCreate,
-			minLength: USER_FORM_DEFAULT_ERRORS.passwordMin,
-		},
-		8,
+	password: withComplexity(
+		createPasswordSchema(
+			{
+				required: USER_FORM_DEFAULT_ERRORS.passwordCreate,
+				minLength: USER_FORM_DEFAULT_ERRORS.passwordMin,
+			},
+			8,
+		),
 	),
 	password_confirmation: createPasswordSchema(
 		{
@@ -54,7 +56,13 @@ export const createUserFormSchema = baseUserFormSchema.extend({
 })
 
 export const updateUserFormSchema = baseUserFormSchema.extend({
-	password: z.string().trim().min(8, USER_FORM_DEFAULT_ERRORS.passwordMin).optional().or(z.literal('')),
+	password: z
+		.string()
+		.trim()
+		.min(8, USER_FORM_DEFAULT_ERRORS.passwordMin)
+		.regex(PASSWORD_COMPLEXITY_REGEX, USER_FORM_DEFAULT_ERRORS.passwordComplexity)
+		.optional()
+		.or(z.literal('')),
 	password_confirmation: z.string().trim().min(8, USER_FORM_DEFAULT_ERRORS.passwordMin).optional().or(z.literal('')),
 }).refine((values) => {
 	if (!values.password && !values.password_confirmation) {
@@ -68,3 +76,4 @@ export const updateUserFormSchema = baseUserFormSchema.extend({
 })
 
 export const userFormSchema = z.union([createUserFormSchema, updateUserFormSchema])
+

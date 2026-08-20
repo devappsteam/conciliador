@@ -4,9 +4,9 @@
 
     <UserFilters
       :search="userStore.currentFilters.search"
-      :role="userStore.currentFilters.role"
+      :role-uuid="userStore.currentFilters.role_uuid"
       @update:search="handleSearchChange"
-      @update:role="handleRoleChange"
+      @update:role-uuid="handleRoleChange"
       @apply-filters="applyFilters"
     />
 
@@ -54,7 +54,7 @@
 import { onMounted, ref, watch } from 'vue'
 import AppPagination from '@/components/AppPagination.vue'
 import { useUserStore } from '../stores/useUserStore'
-import type { User, UserRole } from '../types'
+import type { User } from '../types'
 import UserDeleteModal from '../components/UserDeleteModal.vue'
 import UserFilters from '../components/UserFilters.vue'
 import UserFormModal from '../components/UserFormModal.vue'
@@ -73,7 +73,7 @@ const handleSearchChange = (value: string) => {
 }
 
 const handleRoleChange = (value: string) => {
-  userStore.currentFilters.role = value as UserRole | ''
+  userStore.currentFilters.role_uuid = value
 }
 
 const applyFilters = () => {

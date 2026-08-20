@@ -48,7 +48,7 @@ const formatDate = (date: string) => new Date(date).toLocaleDateString('pt-PT')
 						</td>
 
 						<td class="px-6 py-4">
-							<UserRoleBadge :role="user.role" />
+							<UserRoleBadge :role="user.role?.[0]?.name" />
 						</td>
 
 						<td class="px-6 py-4 text-gray-500 dark:text-gray-400">

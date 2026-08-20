@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { USER_ROLE_OPTIONS } from '../constants/user.constants'
+import { computed } from 'vue'
 import UserAvatarField from './UserAvatarField.vue'
-import type { UserFormValues } from '../types'
+import type { Role, UserFormValues } from '../types'
 
 const props = withDefaults(
 	defineProps<{
@@ -11,6 +11,8 @@ const props = withDefaults(
 		isEditMode: boolean
 		avatarPreviewUrl: string
 		globalErrorMessage: string
+		roleOptions: Role[]
+		loadingRoles: boolean
 		formId?: string
 	}>(),
 	{
@@ -23,6 +25,18 @@ const emit = defineEmits<{
 	(event: 'avatar-change', value: Event): void
 	(event: 'update-field', field: keyof UserFormValues, value: UserFormValues[keyof UserFormValues]): void
 }>()
+
+const passwordChecks = computed(() => {
+	const password = props.values.password || ''
+	return [
+		{ label: 'Mínimo de 8 caracteres', met: password.length >= 8 },
+		{ label: 'Letra maiúscula e minúscula', met: /[a-z]/.test(password) && /[A-Z]/.test(password) },
+		{ label: 'Ao menos um número', met: /\d/.test(password) },
+		{ label: 'Ao menos um símbolo (ex: !@#$%)', met: /[^A-Za-z0-9]/.test(password) },
+	]
+})
+
+const showPasswordChecklist = computed(() => Boolean(props.values.password))
 </script>
 
 <template>
@@ -81,21 +95,21 @@ const emit = defineEmits<{
 				</label>
 				<select
 					id="user-role"
-					:value="values.role"
-					@change="emit('update-field', 'role', ($event.target as HTMLSelectElement).value)"
-					:disabled="submitting"
+					:value="values.role_uuid"
+					@change="emit('update-field', 'role_uuid', ($event.target as HTMLSelectElement).value)"
+					:disabled="submitting || loadingRoles"
 					class="w-full rounded-lg border bg-gray-50 px-4 py-2.5 text-gray-900 outline-none transition-colors dark:bg-gray-700/50 dark:text-white"
-					:class="fieldErrors.role ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500'"
-					:aria-invalid="Boolean(fieldErrors.role)"
-					:aria-describedby="fieldErrors.role ? 'user-role-error' : undefined"
+					:class="fieldErrors.role_uuid ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500'"
+					:aria-invalid="Boolean(fieldErrors.role_uuid)"
+					:aria-describedby="fieldErrors.role_uuid ? 'user-role-error' : undefined"
 				>
-					<option value="">Selecione</option>
-					<option v-for="option in USER_ROLE_OPTIONS" :key="option.value" :value="option.value">
-						{{ option.label }}
+					<option value="">{{ loadingRoles ? 'A carregar perfis...' : 'Selecione' }}</option>
+					<option v-for="option in roleOptions" :key="option.uuid" :value="option.uuid">
+						{{ option.name }}
 					</option>
 				</select>
-				<p v-if="fieldErrors.role" id="user-role-error" class="mt-1.5 text-xs font-medium text-red-600 dark:text-red-400">
-					{{ fieldErrors.role }}
+				<p v-if="fieldErrors.role_uuid" id="user-role-error" class="mt-1.5 text-xs font-medium text-red-600 dark:text-red-400">
+					{{ fieldErrors.role_uuid }}
 				</p>
 			</div>
 
@@ -119,6 +133,17 @@ const emit = defineEmits<{
 				<p v-if="fieldErrors.password" id="user-password-error" class="mt-1.5 text-xs font-medium text-red-600 dark:text-red-400">
 					{{ fieldErrors.password }}
 				</p>
+				<ul v-if="showPasswordChecklist" class="mt-2 grid grid-cols-1 gap-1 sm:grid-cols-2">
+					<li
+						v-for="check in passwordChecks"
+						:key="check.label"
+						class="flex items-center gap-1.5 text-xs"
+						:class="check.met ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'"
+					>
+						<span aria-hidden="true">{{ check.met ? '✓' : '•' }}</span>
+						{{ check.label }}
+					</li>
+				</ul>
 			</div>
 
 			<div>

@@ -13,7 +13,7 @@ export interface NormalizedApiError {
 export const createInitialUserFormValues = (): UserFormValues => ({
 	name: '',
 	email: '',
-	role: 'admin',
+	role_uuid: '',
 	password: '',
 	password_confirmation: '',
 	avatar: null,
@@ -22,7 +22,7 @@ export const createInitialUserFormValues = (): UserFormValues => ({
 export const createUserFormValuesFromUser = (user: User): UserFormValues => ({
 	name: user.name ?? '',
 	email: user.email ?? '',
-	role: user.role ?? 'admin',
+	role_uuid: user.role?.[0]?.uuid ?? '',
 	password: '',
 	password_confirmation: '',
 	avatar: null,
@@ -31,7 +31,7 @@ export const createUserFormValuesFromUser = (user: User): UserFormValues => ({
 export const buildCreateUserPayload = (values: UserFormValues): CreateUserPayload => ({
 	name: values.name.trim(),
 	email: values.email.trim(),
-	role: (values.role || 'admin') as CreateUserPayload['role'],
+	role_uuid: values.role_uuid,
 	password: values.password.trim(),
 	password_confirmation: values.password_confirmation.trim(),
 	avatar: values.avatar ?? null,
@@ -40,7 +40,7 @@ export const buildCreateUserPayload = (values: UserFormValues): CreateUserPayloa
 export const buildUpdateUserPayload = (values: UserFormValues): UpdateUserPayload => ({
 	name: values.name.trim(),
 	email: values.email.trim(),
-	role: (values.role || 'admin') as UpdateUserPayload['role'],
+	role_uuid: values.role_uuid,
 	password: values.password?.trim() || undefined,
 	password_confirmation: values.password_confirmation?.trim() || undefined,
 	avatar: values.avatar ?? null,
@@ -109,7 +109,7 @@ export const normalizeUserApiError = (error: unknown): NormalizedApiError => {
 			fieldErrors: {
 				name: fieldErrors.name,
 				email: fieldErrors.email,
-				role: fieldErrors.role,
+				role_uuid: fieldErrors.role_uuid,
 				password: fieldErrors.password,
 				password_confirmation: fieldErrors.password_confirmation,
 				avatar: fieldErrors.avatar,
