@@ -20,8 +20,18 @@ class BankController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
+        $statusFilter = match (request()->query('status')) {
+            'active' => true,
+            'inactive' => false,
+            default => '',
+        };
+
         $banks = $this->service->paginate(
-            perPage: request()->integer('per_page', (int) config('modules.bank.pagination.per_page', 15))
+            perPage: request()->integer('per_page', (int) config('modules.bank.pagination.per_page', 15)),
+            filters: [
+                'search' => request()->query('search'),
+                'status' => $statusFilter,
+            ]
         );
 
         return BankResource::collection($banks);
@@ -70,6 +80,18 @@ class BankController extends Controller
         }
 
         return response()->json(status: 204);
+    }
+
+    public function toggleStatus(string $uuid): BankResource
+    {
+        $bank = $this->findOrFail($uuid);
+        $toggled = $this->service->toggleStatus($bank);
+
+        if (!$toggled) {
+            throw new RuntimeException('Failed to toggle bank status.');
+        }
+
+        return new BankResource($bank->refresh());
     }
 
     protected function findOrFail(string $uuid)

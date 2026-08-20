@@ -20,6 +20,7 @@ class StoreAcquirerRequest extends FormRequest
             'slug' => ['required', 'string', 'max:255', 'unique:acquirers,slug'],
             'code' => ['required', 'string', 'max:255', 'unique:acquirers,code'],
             'logo' => ['nullable', 'image', 'max:1024', 'mimes:jpeg,png,jpg,svg,webp'],
+            'status' => ['sometimes', 'boolean'],
         ];
     }
 

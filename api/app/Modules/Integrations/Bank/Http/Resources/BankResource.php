@@ -14,6 +14,7 @@ class BankResource extends JsonResource
             'name' => $this->name,
             'code' => $this->code,
             'logo' => $this->logo,
+            'status' => (bool) $this->status,
         ];
     }
 }

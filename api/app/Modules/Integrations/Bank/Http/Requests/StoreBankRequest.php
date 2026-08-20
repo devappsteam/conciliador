@@ -18,7 +18,8 @@ class StoreBankRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'code' => ['required', 'string', 'max:255', 'unique:banks,code'],
-            'logo' => ['nullable', 'image', 'max:1024', 'mimes:jpeg,png,jpg,svg, webp'],
+            'logo' => ['nullable', 'image', 'max:1024', 'mimes:jpeg,png,jpg,svg,webp'],
+            'status' => ['sometimes', 'boolean'],
         ];
     }
 

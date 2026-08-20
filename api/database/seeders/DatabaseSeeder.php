@@ -12,6 +12,7 @@ use App\Modules\ERP\Department\Database\Seeders\DepartmentSeeder;
 use App\Modules\ERP\Position\Database\Seeders\PositionSeeder;
 use App\Modules\Integrations\Acquirer\Database\Seeders\AcquirerSeeder;
 use App\Modules\Integrations\Bank\Database\Seeders\BankSeeder;
+use App\Modules\Integrations\Brand\Database\Seeders\BrandSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -35,6 +36,7 @@ class DatabaseSeeder extends Seeder
             PositionSeeder::class,
             AcquirerSeeder::class,
             BankSeeder::class,
+            BrandSeeder::class,
         ]);
     }
 }

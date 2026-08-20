@@ -22,7 +22,11 @@ class CompanyController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $companies = $this->service->paginate(
-            perPage: request()->integer('per_page', (int) config('modules.company.pagination.per_page', 15))
+            perPage: request()->integer('per_page', (int) config('modules.company.pagination.per_page', 15)),
+            filters: [
+                'search' => request()->query('search'),
+                'status' => request()->query('status'),
+            ]
         );
 
         return CompanyListResource::collection($companies);

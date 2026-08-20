@@ -15,6 +15,7 @@ class AcquirerResource extends JsonResource
             'slug' => $this->slug,
             'code' => $this->code,
             'logo' => $this->logo,
+            'status' => (bool) $this->status,
         ];
     }
 }

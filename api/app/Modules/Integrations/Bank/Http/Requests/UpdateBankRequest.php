@@ -18,8 +18,9 @@ class UpdateBankRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:255', Rule::unique('banks', 'code')->ignore($this->route('bank'), 'uuid')],
+            'code' => ['required', 'string', 'max:255', Rule::unique('banks', 'code')->ignore($this->route('uuid'), 'uuid')],
             'logo' => ['nullable', 'image', 'max:1024', 'mimes:jpeg,png,jpg,svg,webp'],
+            'status' => ['sometimes', 'boolean'],
         ];
     }
 

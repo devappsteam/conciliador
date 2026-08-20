@@ -18,9 +18,9 @@ class AcquirerService
         return $this->repository->all($relations);
     }
 
-    public function paginate(int $perPage = 15, array $relations = []): LengthAwarePaginator
+    public function paginate(int $perPage = 15, array $relations = [], array $filters = []): LengthAwarePaginator
     {
-        return $this->repository->paginate($perPage, $relations);
+        return $this->repository->paginateWithFilters($filters, $perPage, $relations);
     }
 
     public function findById(int $id, array $relations = []): ?Model
@@ -46,6 +46,11 @@ class AcquirerService
     public function delete(Model $model): bool
     {
         return $this->repository->delete($model);
+    }
+
+    public function toggleStatus(Model $model): bool
+    {
+        return $this->repository->update($model, ['status' => !$model->status]);
     }
 
     public function restore(Model $model): bool

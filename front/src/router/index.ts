@@ -3,6 +3,10 @@ import { useAuthStore } from '@/modules/auth/stores/useAuthStore'
 import { authRoutes } from '@/modules/auth/router'
 import { dashboardRoutes } from '@/modules/dashboard/router'
 import { userRoutes } from '@/modules/users/router'
+import { acquirerRoutes } from '@/modules/integrations/acquirers/router'
+import { bankRoutes } from '@/modules/integrations/banks/router'
+import { brandRoutes } from '@/modules/integrations/brands/router'
+import { companyRoutes } from '@/modules/companies/router'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -14,6 +18,10 @@ const routes: RouteRecordRaw[] = [
   ...authRoutes,
   ...dashboardRoutes,
   ...userRoutes,
+  ...acquirerRoutes,
+  ...bankRoutes,
+  ...brandRoutes,
+  ...companyRoutes,
 
   // Fallback 404
   {

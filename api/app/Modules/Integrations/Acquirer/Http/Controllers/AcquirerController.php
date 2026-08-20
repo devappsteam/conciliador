@@ -18,8 +18,18 @@ class AcquirerController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
+        $statusFilter = match (request()->query('status')) {
+            'active' => true,
+            'inactive' => false,
+            default => '',
+        };
+
         $acquirers = $this->service->paginate(
-            perPage: request()->integer('per_page', (int) config('modules.acquirer.pagination.per_page', 15))
+            perPage: request()->integer('per_page', (int) config('modules.acquirer.pagination.per_page', 15)),
+            filters: [
+                'search' => request()->query('search'),
+                'status' => $statusFilter,
+            ]
         );
 
         return AcquirerResource::collection($acquirers);
@@ -68,6 +78,18 @@ class AcquirerController extends Controller
         }
 
         return response()->json(status: 204);
+    }
+
+    public function toggleStatus(string $uuid): AcquirerResource
+    {
+        $acquirer = $this->findOrFail($uuid);
+        $toggled = $this->service->toggleStatus($acquirer);
+
+        if (!$toggled) {
+            throw new RuntimeException('Failed to toggle acquirer status.');
+        }
+
+        return new AcquirerResource($acquirer->refresh());
     }
 
     protected function findOrFail(string $uuid)

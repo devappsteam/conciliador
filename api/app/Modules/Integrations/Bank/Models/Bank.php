@@ -20,6 +20,7 @@ class Bank extends Model
         'name',
         'code',
         'logo',
+        'status',
     ];
 
     protected $hidden = [
@@ -27,6 +28,7 @@ class Bank extends Model
     ];
 
     protected $casts = [
+        'status' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',

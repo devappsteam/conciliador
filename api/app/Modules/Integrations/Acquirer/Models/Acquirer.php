@@ -21,6 +21,7 @@ class Acquirer extends Model
         'slug',
         'code',
         'logo',
+        'status',
     ];
 
     protected $hidden = [
@@ -28,6 +29,7 @@ class Acquirer extends Model
     ];
 
     protected $casts = [
+        'status' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',

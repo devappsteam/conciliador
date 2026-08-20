@@ -16,7 +16,8 @@ class CompanyListResource extends JsonResource
             'trade_name'        => $this->trade_name,
             'email'             => $this->email,
             'phone'             => $this->phone,
-            'status'            => $this->status?->label(),
+            'status'            => $this->status?->value,
+            'status_label'      => $this->status?->label(),
             'created_at'        => $this->created_at?->toIso8601String(),
         ];
     }

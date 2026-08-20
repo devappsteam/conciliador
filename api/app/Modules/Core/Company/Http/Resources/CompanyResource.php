@@ -18,7 +18,7 @@ class CompanyResource extends JsonResource
             'municipal_registration'    => $this->municipal_registration,
             'email'                     => $this->email,
             'phone'                     => $this->phone,
-            'address'                   => $this->address,
+            'street'                    => $this->street,
             'number'                    => $this->number,
             'complement'                => $this->complement,
             'neighborhood'              => $this->neighborhood,
@@ -26,7 +26,8 @@ class CompanyResource extends JsonResource
             'state'                     => $this->state,
             'zip_code'                  => $this->zip_code,
             'country'                   => $this->country,
-            'status'                    => $this->status?->label(),
+            'status'                    => $this->status?->value,
+            'status_label'              => $this->status?->label(),
             'created_at'                => $this->created_at?->toIso8601String(),
             'updated_at'                => $this->updated_at?->toIso8601String(),
         ];

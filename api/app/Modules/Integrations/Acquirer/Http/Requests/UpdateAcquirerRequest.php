@@ -18,9 +18,10 @@ class UpdateAcquirerRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'string', 'max:255', Rule::unique('acquirers', 'slug')->ignore($this->route('acquirer'), 'uuid')],
-            'code' => ['required', 'string', 'max:255', Rule::unique('acquirers', 'code')->ignore($this->route('acquirer'), 'uuid')],
+            'slug' => ['required', 'string', 'max:255', Rule::unique('acquirers', 'slug')->ignore($this->route('uuid'), 'uuid')],
+            'code' => ['required', 'string', 'max:255', Rule::unique('acquirers', 'code')->ignore($this->route('uuid'), 'uuid')],
             'logo' => ['nullable', 'image', 'max:1024', 'mimes:jpeg,png,jpg,svg,webp'],
+            'status' => ['sometimes', 'boolean'],
         ];
     }
 
